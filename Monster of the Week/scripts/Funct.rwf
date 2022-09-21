@@ -166,6 +166,7 @@ function tableSortAlpha(rTableOrg)
 end
 
 function tableSortIndex(rTableOrg)
+	Debug.chat("Hello");
 	local rTable = {};
 	for i=1,getTableSize(rTableOrg),1 do
 		for idx, val in pairs(rTableOrg) do	

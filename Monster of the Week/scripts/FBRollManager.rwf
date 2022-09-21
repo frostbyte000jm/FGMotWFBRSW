@@ -50,7 +50,7 @@ rAddInfo.nMod - add successes
 
 local nCount = 0;
 
-function rollInit(nodeChar, sType, rAddInfo)
+function rollInit(nodeChar, sType, rAddInfo)--FBRollManager.rStrRollList.rRollTypes.Action[2]
     --Debug.chat("rollInit\n\nnodeChar",nodeChar, "\n\nsType",sType, "\n\nrAddInfo", rAddInfo);
      
      -- stack overflow prevention.

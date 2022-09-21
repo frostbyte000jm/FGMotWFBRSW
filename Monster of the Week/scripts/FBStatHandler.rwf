@@ -30,23 +30,17 @@ StatList = { --FBStatHandler.StatList.StatTypes.Attributes.Skills.Resources
 	},
 	Skills = { --FBStatHandler.StatList.Skills.Talents.Skills.Knowledges
 		Talents = {
-			Athletics = {count(true), "Athletics"},
-			Brawl = {count(), "Brawl"},
-			Craft = {count(), "Craft"},
-			Drive = {count(), "Drive"},
-			Firearms = {count(), "Firearms"},
-			Larceny = {count(), "Larceny"},
-			Melee = {count(), "Melee"},
-			PrimalUrge = {count(), "Primal Urge"},
-			Stealth = {count(), "Stealth"},
-			Survival = {count(), "Survival"},			
+			Charm = {count(true), "Charm"},
+								
 		},	
 	},
 	Attributes = { --FBStatHandler.StatList.Attributes.Physical.Social.Mental
 		Physical = {
-			Strength = {count(true), "Strength"},
-			Dexterity = {count(), "Dexterity"},
-			Stamina = {count(), "Stamina"},
+			Charm = {count(true), "Charm"},
+			Cool = {count(), "Cool"},
+			Sharp = {count(), "Sharp"},
+			Tough = {count(), "Tough"},--Debug.note In templateTemplate, note up stamina that it has properties.
+			Weird = {count(), "Weird"},	
 		},					
 	},	
 	Specialties = {
@@ -85,10 +79,10 @@ stat, this is where we should create a method for it.
 function CallStatUpdate(nodeChar,nodeSkill)
 	local sStat = DB.getValue(nodeSkill, "str_skill_name","");
 	
-	if sStat == StatList.Attributes.Physical.Stamina[2] then
-		updateHealth(nodeChar);
-	
-	end
+--	if sStat == StatList.Attributes.Physical.Stamina[2] then
+--		updateHealth(nodeChar);
+--	
+--	end
 end
 
 --[[
