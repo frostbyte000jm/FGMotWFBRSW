@@ -37,8 +37,8 @@
 			&lt;sub_ps name="xp"&gt;
 				&lt;class&gt;ps_xp&lt;/class&gt;
 			&lt;/sub_ps&gt;
-			&lt;sub_ps name="totem"&gt;
-				&lt;class&gt;ps_totem&lt;/class&gt;
+			&lt;sub_ps name="sw_game_settings"&gt;
+				&lt;class&gt;ps_game_settings&lt;/class&gt;
 			&lt;/sub_ps&gt;
 			&lt;sub_ps name="GMView"&gt;
 				&lt;class&gt;ps_GMView&lt;/class&gt;
@@ -61,8 +61,8 @@
 					&lt;subwindow&gt;xp&lt;/subwindow&gt;
 				&lt;/tab&gt;
 				&lt;tab&gt;
-					&lt;icon&gt;tab_ps_totem&lt;/icon&gt;
-					&lt;subwindow&gt;totem&lt;/subwindow&gt;
+					&lt;icon&gt;tab_ps_game_settings&lt;/icon&gt;
+					&lt;subwindow&gt;sw_game_settings&lt;/subwindow&gt;
 				&lt;/tab&gt;
 				&lt;tab&gt;
 					&lt;icon&gt;tab_GMView&lt;/icon&gt;
@@ -104,9 +104,6 @@
 			&lt;sub_ps name="inventory"&gt;
 				&lt;class&gt;ps_inventory&lt;/class&gt;
 			&lt;/sub_ps&gt;
-			&lt;sub_ps name="totem"&gt;
-				&lt;class&gt;ps_totem&lt;/class&gt;
-			&lt;/sub_ps&gt;
 			
 			&lt;tabs_partysheet&gt;
 				&lt;tab&gt;
@@ -116,10 +113,6 @@
 				&lt;tab&gt;
 					&lt;icon&gt;tab_inventory&lt;/icon&gt;
 					&lt;subwindow&gt;inventory&lt;/subwindow&gt;
-				&lt;/tab&gt;
-				&lt;tab&gt;
-					&lt;icon&gt;tab_ps_totem&lt;/icon&gt;
-					&lt;subwindow&gt;totem&lt;/subwindow&gt;
 				&lt;/tab&gt;
 			&lt;/tabs_partysheet&gt;
 			

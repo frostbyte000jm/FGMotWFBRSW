@@ -34,8 +34,8 @@ StatList = { --FBStatHandler.StatList.StatTypes.Attributes.Skills.Resources
 								
 		},	
 	},
-	Attributes = { --FBStatHandler.StatList.Attributes.Physical.Social.Mental
-		Physical = {
+	Attributes = { --FBStatHandler.StatList.Attributes.Stats[2]
+		Stats = {
 			Charm = {count(true), "Charm"},
 			Cool = {count(), "Cool"},
 			Sharp = {count(), "Sharp"},
