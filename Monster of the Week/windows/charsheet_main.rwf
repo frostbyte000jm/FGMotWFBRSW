@@ -1082,7 +1082,14 @@ end
       {"Name":"XPos","Value":{"@xsi:type":"xsd:int","#text":"208"}},
       {"Name":"YPos","Value":{"@xsi:type":"xsd:int","#text":"26"}}
 ]}}</Definition>
-    <LUACode />
+    <LUACode>
+function onInit()
+
+end
+
+function reload()
+	
+end</LUACode>
     <GroupIndex>0</GroupIndex>
     <Template />
   </WindowControls>
