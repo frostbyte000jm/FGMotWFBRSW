@@ -46,7 +46,7 @@
       {"Name":"Tooltip"},
       {"Name":"TooltipField"},
       {"Name":"VerticalAnchor","Value":{"@xsi:type":"xsd:int","#text":"0"}},
-      {"Name":"WindowMargins"},
+      {"Name":"WindowMargins","Value":{"@xsi:type":"xsd:string"}},
       {"Name":"WindowTitle"},
       {"Name":"XPos","Value":{"@xsi:type":"xsd:int","#text":"0"}},
       {"Name":"YPos","Value":{"@xsi:type":"xsd:int","#text":"0"}}
@@ -130,6 +130,7 @@ end</LUACode>
 ]}}</Definition>
     <LUACode>
 function onValueChanged()
+	window.sw_action.showWindow();
 	window.sw_action_chat.showWindow();
 	window.box_show_action.setValue(getValue());
 end
@@ -186,6 +187,7 @@ end
 ]}}</Definition>
     <LUACode>
 function onValueChanged()
+	window.sw_attack.showWindow();
 	window.sw_attack_chat.showWindow();
 	window.box_show_attack.setValue(getValue());
 end
@@ -293,6 +295,7 @@ end
 ]}}</Definition>
     <LUACode>
 function onValueChanged()
+	window.sw_damage.showWindow();
 	window.sw_damage_chat.showWindow();
 	window.box_show_damage.setValue(getValue());
 end
@@ -349,6 +352,7 @@ end
 ]}}</Definition>
     <LUACode>
 function onValueChanged()
+	window.sw_defense.showWindow();
 	window.sw_defense_chat.showWindow();
 	window.box_show_defense.setValue(getValue());
 end
@@ -2410,13 +2414,26 @@ end
 ]}}</Definition>
     <LUACode>
 function onInit()
-	setValue("action_sheet_action",DB.getPath(DB.createChild(window.getDatabaseNode(), "action")));
+	showWindow();
 end
 
 function setEffectButton(nValue)
 	window.box_show_action_effect.setValue(nValue);
 end
-</LUACode>
+
+function showWindow()
+	local bValue = window.box_action.getValue() == 1;
+	window.lbl_action.setVisible(bValue);
+	window.sw_action.setVisible(bValue);
+	
+	if (bValue) then
+		createNode();
+	end
+end
+
+function createNode()
+	setValue("action_sheet_action",DB.getPath(DB.createChild(window.getDatabaseNode(), "action")));
+end</LUACode>
     <GroupIndex>0</GroupIndex>
     <Template />
   </WindowControls>
@@ -2470,16 +2487,21 @@ end
       {"Name":"YPos","Value":{"@xsi:type":"xsd:int","#text":"296"}}
 ]}}</Definition>
     <LUACode>
-function onInit()
-	setValue("action_sheet_chat",DB.getPath(DB.createChild(window.getDatabaseNode(), "action")));
+function onInit()	
 	showWindow();
 end
 
 function showWindow()
 	local bValue = window.box_action.getValue() == 1;
-	window.lbl_action.setVisible(bValue);
-	window.sw_action.setVisible(bValue);
-	window.sw_action_chat.setVisible(bValue)
+	window.sw_action_chat.setVisible(bValue);
+	
+	if (bValue) then
+		createNode();
+	end
+end
+
+function createNode()
+	setValue("action_sheet_chat",DB.getPath(DB.createChild(window.getDatabaseNode(), "action")));
 end</LUACode>
     <GroupIndex>0</GroupIndex>
     <Template />
@@ -2534,14 +2556,27 @@ end</LUACode>
       {"Name":"YPos","Value":{"@xsi:type":"xsd:int","#text":"388"}}
 ]}}</Definition>
     <LUACode>
-function onInit()
-	setValue("action_sheet_action",DB.getPath(DB.createChild(window.getDatabaseNode(), "attack")));
+function onInit()	
+	showWindow();
 end
 
 function setEffectButton(nValue)
 	window.box_show_attack_effect.setValue(nValue);
 end
-</LUACode>
+
+function showWindow()
+	local bValue = window.box_attack.getValue() == 1;
+	window.lbl_attack.setVisible(bValue);
+	window.sw_attack.setVisible(bValue);
+	
+	if (bValue) then
+		createNode();
+	end
+end
+
+function createNode()
+	setValue("action_sheet_action",DB.getPath(DB.createChild(window.getDatabaseNode(), "attack")));
+end</LUACode>
     <GroupIndex>0</GroupIndex>
     <Template />
   </WindowControls>
@@ -2595,16 +2630,21 @@ end
       {"Name":"YPos","Value":{"@xsi:type":"xsd:int","#text":"458"}}
 ]}}</Definition>
     <LUACode>
-function onInit()
-	setValue("action_sheet_chat",DB.getPath(DB.createChild(window.getDatabaseNode(), "attack")));
+function onInit()	
 	showWindow();
 end
 
 function showWindow()
 	local bValue = window.box_attack.getValue() == 1;
-	window.lbl_attack.setVisible(bValue);
-	window.sw_attack.setVisible(bValue);
-	window.sw_attack_chat.setVisible(bValue)
+	window.sw_attack_chat.setVisible(bValue);
+	
+	if (bValue) then
+		createNode();
+	end
+end
+
+function createNode()
+	setValue("action_sheet_chat",DB.getPath(DB.createChild(window.getDatabaseNode(), "attack")));
 end</LUACode>
     <GroupIndex>0</GroupIndex>
     <Template />
@@ -2660,6 +2700,20 @@ end</LUACode>
 ]}}</Definition>
     <LUACode>
 function onInit()
+	showWindow();
+end
+
+function showWindow()
+	local bValue = window.box_damage.getValue() == 1;
+	window.lbl_damage.setVisible(bValue);
+	window.sw_damage.setVisible(bValue);
+	
+	if (bValue) then
+		createNode();
+	end
+end
+
+function createNode()
 	setValue("action_sheet_action",DB.getPath(DB.createChild(window.getDatabaseNode(), "damage")));
 end
 
@@ -2721,17 +2775,21 @@ end
 ]}}</Definition>
     <LUACode>
 function onInit()
-	setValue("action_sheet_chat",DB.getPath(DB.createChild(window.getDatabaseNode(), "damage")));
 	showWindow();
 end
 
 function showWindow()
 	local bValue = window.box_damage.getValue() == 1;
-	window.lbl_damage.setVisible(bValue);
-	window.sw_damage.setVisible(bValue);
-	window.sw_damage_chat.setVisible(bValue)
+	window.sw_damage_chat.setVisible(bValue);
+	
+	if (bValue) then
+		createNode();
+	end
 end
-</LUACode>
+
+function createNode()
+	setValue("action_sheet_chat",DB.getPath(DB.createChild(window.getDatabaseNode(), "damage")));
+end</LUACode>
     <GroupIndex>0</GroupIndex>
     <Template />
   </WindowControls>
@@ -2785,7 +2843,21 @@ end
       {"Name":"YPos","Value":{"@xsi:type":"xsd:int","#text":"708"}}
 ]}}</Definition>
     <LUACode>
-function onInit()
+function onInit()	
+	showWindow();
+end
+
+function showWindow()
+	local bValue = window.box_defense.getValue() == 1;
+	window.lbl_defense.setVisible(bValue);
+	window.sw_defense.setVisible(bValue);
+	
+	if (bValue) then
+		createNode();
+	end
+end
+
+function createNode()
 	setValue("action_sheet_action",DB.getPath(DB.createChild(window.getDatabaseNode(), "defense")));
 end
 
@@ -2846,18 +2918,22 @@ end
       {"Name":"YPos","Value":{"@xsi:type":"xsd:int","#text":"778"}}
 ]}}</Definition>
     <LUACode>
-function onInit()
-	setValue("action_sheet_chat",DB.getPath(DB.createChild(window.getDatabaseNode(), "defense")));
+function onInit()	
 	showWindow();
 end
 
 function showWindow()
 	local bValue = window.box_defense.getValue() == 1;
-	window.lbl_defense.setVisible(bValue);
-	window.sw_defense.setVisible(bValue);
-	window.sw_defense_chat.setVisible(bValue)
+	window.sw_defense_chat.setVisible(bValue);
+	
+	if (bValue) then
+		createNode();
+	end
 end
-</LUACode>
+
+function createNode()
+	setValue("action_sheet_chat",DB.getPath(DB.createChild(window.getDatabaseNode(), "defense")));
+end</LUACode>
     <GroupIndex>0</GroupIndex>
     <Template />
   </WindowControls>
@@ -2913,36 +2989,33 @@ end
     <LUACode>local doFirstRun = false;
 
 function onInit()
+	showWindow(); -- Debug.todo() copy to templateTemplate
+end
+
+function createNode()
 	-- create or grab new tree
 	local nodeChild = DB.createChild(window.getDatabaseNode(), "effect");
 	
-	-- if first run, set true.
-	if not(DB.getValue(nodeChild,"box_effect_only",nil)) then		
-		doFirstRun = true;
-	end
-	
 	-- create subwindow
 	setValue("action_sheet_action",DB.getPath(nodeChild));
-	
-	--set effect only node to be true
-	if doFirstRun then
-		DB.setValue(nodeChild,"box_effect_only","number",1);
-		doFirstRun = false;
-	end
-	
-	--showWindow()
-	showWindow();
 end
 
 function showWindow()
-	local bValue = window.box_effect.getValue() == 1;
+	local bValue = window.box_effect.getValue() == 1;	
 	window.lbl_effect.setVisible(bValue);
 	window.sw_effect.setVisible(bValue);
+	
+	if (bValue) then
+		Debug.chat("bValue",bValue,"Creating Node");
+		createNode();
+	end
 end
 
 function setEffectButton(nValue)
 	window.box_show_effect_effect.setValue(nValue);
 end
+
+
 </LUACode>
     <GroupIndex>0</GroupIndex>
     <Template />
