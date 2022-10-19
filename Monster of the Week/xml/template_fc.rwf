@@ -17,7 +17,7 @@
         
         start at -100, then play from there. I can't figure out how to get the Host to anchor to anything else like the client one.
     --&gt;
-    &lt;template name="string_ctname" merge="replace"&gt;
+    &lt;template name="string_ctname"&gt;
 		&lt;string_ct&gt;
 			&lt;anchored height="20"&gt;
 				&lt;top parent="active_spacer_top" anchor="bottom"  relation="relative" offset="10" /&gt;

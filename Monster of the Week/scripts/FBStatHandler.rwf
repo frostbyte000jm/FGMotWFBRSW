@@ -44,7 +44,7 @@ StatList = { --FBStatHandler.StatList.StatTypes.Attributes.Skills.Resources
 		},					
 	},	
 	Specialties = {
-		Initiative = {count(true), "Initiative"},
+--		Initiative = {count(true), "Initiative"},
 	},	
 }
 
