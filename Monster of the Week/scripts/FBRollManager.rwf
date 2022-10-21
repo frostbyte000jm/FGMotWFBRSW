@@ -69,12 +69,12 @@ function rollInit(nodeChar, sType, rAddInfo)--FBRollManager.rStrRollList.rRollTy
 	FBEffectsManager.checkForTriggers(FBEffectsManager.StrEffectList.rTriggers.RollType[2], nodeChar, rAddInfo);
     
     --Choose Roll Type
-    -- Action
+    -- Action    
     if sType == rStrRollList.rRollTypes.Action[2] or
 	  sType == rStrRollList.rRollTypes.Attack[2] or 
 	  sType == rStrRollList.rRollTypes.Damage[2] or 
 	  sType == rStrRollList.rRollTypes.Defense[2] or 
-	  FBActionsManager.rStrActionsList.rAddActionTypes.Effect[2] then --Debug.Cleanup Depending on the game, you may want to make attack its own function.
+	  sType == FBActionsManager.rStrActionsList.rAddActionTypes.Effect[2] then --Debug.Cleanup Depending on the game, you may want to make attack its own function.
         preActionRoll(nodeChar, rAddInfo);
     
     -- Initiative
@@ -82,7 +82,9 @@ function rollInit(nodeChar, sType, rAddInfo)--FBRollManager.rStrRollList.rRollTy
 		preInitiativeRoll(nodeChar, rAddInfo);     
 	
 	-- Quick
+	
 	elseif sType == rStrRollList.rRollTypes.Quick[2] then
+		
         preQuickRoll(nodeChar, rAddInfo);
     end
 
@@ -250,57 +252,16 @@ end
 function CheckDiceValue(rRoll)
     --Debug.chat("CheckDiceValue:\nrRoll",rRoll);
     
-    --dice declarations
-    local nModMultiply = rRoll.nModMultiply;
     local nTotal = rRoll.nMod;    
     local nTotalDice = rRoll.nDieNum;
-    local nDiffNum = rRoll.nDiffNum;
-    local nRageDice = 0;
-    if rRoll.nRageDice then nRageDice = rRoll.nRageDice; end
-    local bCombatStart = rRoll.bCombatStart;
-    local b10Again = false;
-
-     -- Loop dice and count successes    
-    for nDieIdx,aDie in ipairs(rRoll.aDice) do
-        --Debug.chat("nDieIdx: ",nDieIdx," aDie: ",aDie);
-        --set Rage Dice
-        if nDieIdx &gt; (nTotalDice - nRageDice) then
-			aDie.type = "d10rage";
-        end
-        if aDie.result then
-            -- set dice color and set value
-            if aDie.result &gt;= nDiffNum then
-                aDie.fontcolor = "#FF00FF00"; -- regular Green
-                aDie.value = 1;
-                nTotal = nTotal + 1;
-                
-                --handle 10s
-                if aDie.result == 10 then
-					if b10Again then
-						b10Again = false;
-						aDie.value = 3;
-						nTotal = nTotal + 2;
-					else
-						b10Again = true;
-					end
-                end
-			elseif (nDieIdx &gt; (nTotalDice - nRageDice) or bCombatStart) and aDie.result == 1 then
-				aDie.fontcolor = "#FFFF0000"; -- regular Red
-				aDie.value = -1;
-				nTotal = nTotal - 1;
-            else
-                aDie.value = 0;
-            end
-        end
-    end   
     
-    -- Add Multiplied results to roll and update Totals
-    local nNewTotal =  Funct.round(nTotal * nModMultiply,0,-1);
-    if rRoll and rRoll.aDice and rRoll.aDice[1] then
-		rRoll.aDice[1].value = rRoll.aDice[1].value + (nNewTotal - nTotal);
-    end    
-    rRoll.nTotal = nNewTotal;
-    rRoll.aDice.total = nNewTotal;
+    if rRoll.aDice[1] and rRoll.aDice[1].value then
+		nTotal = nTotal + rRoll.aDice[1].value;
+    end
+    
+    if rRoll.aDice[2] and rRoll.aDice[2].value then
+		nTotal = nTotal + rRoll.aDice[2].value;
+    end
     
     return rRoll;
 end
@@ -360,20 +321,20 @@ function preActionRoll(nodeChar, rAddInfo)
     
     --get Dice and Description
     local sRollDescription = rAddInfo.rGetRoll.sRollDescription;
-    local nDieNum = rAddInfo.rGetRoll.nDieNum;
-    local sDiceStackDescription, nDiceStackDieNum, nDiceMultiply = DiceStack.getStack();
-    nDieNum = Funct.round((nDieNum + nDiceStackDieNum)*nDiceMultiply,0,1);
+    local nDieNum = 2;--rAddInfo.rGetRoll.nDieNum;
+    --local sDiceStackDescription, nDiceStackDieNum, nDiceMultiply = DiceStack.getStack();
+    --nDieNum = Funct.round((nDieNum + nDiceStackDieNum)*nDiceMultiply,0,1);
       
 	--Mod for Health
 	local bIgnoreHealth, nHealthPenalty = HealthMod(nodeChar);
 	nDieNum = math.max(nDieNum - nHealthPenalty,0);
 	
     --set Die String
-    sDieRollString = nDieNum.."d10"
+    sDieRollString = nDieNum.."d6"
     
     -- Use Diff Stack to set Difficulty
-    local sDiffDesc, nDiffNum, nDiffMultiply = DifficultyStack.getStack();
-    nDiffNum = math.min(math.max(Funct.round(nDiffNum * nDiffMultiply,0,1),0),10); --Debug.comment() This really should be handled better. Maybe a process Stacks, and the Stacks should handle the muliplication and filtering. 
+    --local sDiffDesc, nDiffNum, nDiffMultiply = DifficultyStack.getStack();
+    --nDiffNum = math.min(math.max(Funct.round(nDiffNum * nDiffMultiply,0,1),0),10); --Debug.comment() This really should be handled better. Maybe a process Stacks, and the Stacks should handle the muliplication and filtering. 
     
     -- Use Mod Stack to adjust Success
     local sMod, nMod, nModMultiply = ModifierStack.getStack();
@@ -381,17 +342,17 @@ function preActionRoll(nodeChar, rAddInfo)
     --Set Additional Info for post Roll. This will be stored in rRoll[].
     rAddInfo.nDieNum = nDieNum;
 	rAddInfo.sRollDescription = sRollDescription;
-	rAddInfo.sDiceStackDescription = sDiceStackDescription;
-	rAddInfo.nDiceMultiply = nDiceMultiply;
-	rAddInfo.nDiffNum = nDiffNum;
-	rAddInfo.sDiffDesc = sDiffDesc;
-	rAddInfo.nDiffMultiply = nDiffMultiply;
+	--rAddInfo.sDiceStackDescription = sDiceStackDescription;
+	--rAddInfo.nDiceMultiply = nDiceMultiply;
+	--rAddInfo.nDiffNum = nDiffNum;
+	--rAddInfo.sDiffDesc = sDiffDesc;
+	--rAddInfo.nDiffMultiply = nDiffMultiply;
 	rAddInfo.nMod = nMod;
 	rAddInfo.sMod = sMod;
 	rAddInfo.nModMultiply = nModMultiply;
 	rAddInfo.nHealthPenalty = nHealthPenalty;
 	rAddInfo.bIgnoreHealth = bIgnoreHealth;
-	rAddInfo.nRageDice = DB.getValue(nodeChar, "num_frenzy", 0);	
+	--rAddInfo.nRageDice = DB.getValue(nodeChar, "num_frenzy", 0);	
 	--if rAddInfo.bCombatStart then rAddInfo.nbCombatStart = 1; else rAddInfo.nbCombatStart = 0; end
     
     -- Set Description
@@ -536,11 +497,12 @@ function preQuickRoll(nodeChar, rAddInfo)
     local sRollType = rAddInfo.sRollType;
     
     --get Dice
-    local sRollDescription, nDieNum, nDiceMultiply = DiceStack.getStack(false);
-    nDieNum = math.max(Funct.round(nDieNum *nDiceMultiply,0,1),0);
+    local nDieNum = rAddInfo.nDice;
+    --local sRollDescription, nDieNum, nDiceMultiply = DiceStack.getStack(false);
+    --nDieNum = math.max(Funct.round(nDieNum *nDiceMultiply,0,1),0);
     
     -- Use Diff Stack to set Difficulty
-    local sDiffDesc, nDiffNum = DifficultyStack.getStack(false);
+    --local sDiffDesc, nDiffNum = DifficultyStack.getStack(false);
     
     -- Use Mod Stack to adjust Success
     local sMod, nMod, nModMultiply = ModifierStack.getStack(false);
@@ -548,8 +510,8 @@ function preQuickRoll(nodeChar, rAddInfo)
     --Set Additional Info for post Roll. This will be stored in rRoll[].
     rAddInfo.nDieNum = nDieNum;
 	rAddInfo.sRollDescription = sRollDescription;
-	rAddInfo.nDiffNum = nDiffNum;
-	rAddInfo.sDiffDesc = sDiffDesc;
+	--rAddInfo.nDiffNum = nDiffNum;
+	--rAddInfo.sDiffDesc = sDiffDesc;
 	rAddInfo.nMod = nMod;
 	rAddInfo.sMod = sMod;
 	rAddInfo.nModMultiply = nModMultiply;
@@ -565,7 +527,7 @@ function preQuickRoll(nodeChar, rAddInfo)
     GameSystem.actions[rAddInfo.sRollType] = {  sTargeting = "all" } --all,each,self
        
     --set Die String
-    sDieRollString = nDieNum.."d10"
+    sDieRollString = nDieNum.."d6"
     
     --Rollify
     rAddInfo = FBOOBManager.Rollify(rAddInfo);    

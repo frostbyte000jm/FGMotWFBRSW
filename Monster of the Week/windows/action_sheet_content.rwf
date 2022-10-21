@@ -2989,7 +2989,7 @@ end</LUACode>
     <LUACode>local doFirstRun = false;
 
 function onInit()
-	showWindow(); -- Debug.todo() copy to templateTemplate
+	showWindow();
 end
 
 function createNode()

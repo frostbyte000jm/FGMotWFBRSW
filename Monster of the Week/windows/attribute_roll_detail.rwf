@@ -46,7 +46,7 @@
       {"Name":"Tooltip"},
       {"Name":"TooltipField"},
       {"Name":"VerticalAnchor","Value":{"@xsi:type":"xsd:int","#text":"0"}},
-      {"Name":"WindowMargins"},
+      {"Name":"WindowMargins","Value":{"@xsi:type":"xsd:string"}},
       {"Name":"WindowTitle"},
       {"Name":"XPos","Value":{"@xsi:type":"xsd:int","#text":"0"}},
       {"Name":"YPos","Value":{"@xsi:type":"xsd:int","#text":"0"}}
@@ -93,7 +93,7 @@ function updateLockState(bReadOnly)
 	end	
 end
 
-function onClose() --Debug.note Add this to templateTemplate
+function onClose()
 	local nodeSkill = getDatabaseNode();
 	DB.removeHandler(DB.getPath(DB.getChild(nodeSkill,"num_base_skill_value")), "onUpdate", updateSkillValue);
 	DB.removeHandler(DB.getPath(DB.getChild(nodeSkill,"num_skill_mod")), "onUpdate", updateSkillValue);
@@ -102,8 +102,10 @@ end
 function sendToRoller()
 	local nodeSkill = getDatabaseNode();
 	local nodeChar = windowlist.window.getDatabaseNode();
-	local nSkill = DB.getValue(nodeSkill, "num_skill_value", 0);
-	local rAddInfo = {}
+	
+	local rAddInfo = {
+		nMod = DB.getValue(nodeSkill, "num_skill_value", 0);
+	}
 	FBRollManager.rollInit(nodeChar, FBRollManager.rStrRollList.rRollTypes.Action[2], rAddInfo)
 end</LUACode>
     <GroupIndex>0</GroupIndex>
@@ -167,7 +169,10 @@ end</LUACode>
       {"Name":"XPos","Value":{"@xsi:type":"xsd:int","#text":"7"}},
       {"Name":"YPos","Value":{"@xsi:type":"xsd:int","#text":"0"}}
 ]}}</Definition>
-    <LUACode />
+    <LUACode>
+function onDoubleClick(x, y)
+	window.sendToRoller();
+end</LUACode>
     <GroupIndex>0</GroupIndex>
     <Template />
   </WindowControls>
@@ -294,6 +299,10 @@ end</LUACode>
     <LUACode>
 function onHover(state)
 	setTooltipText(string.format("Base: %s | Mod: %s",window.num_base_skill_value.getValue(),window.num_skill_mod.getValue()))
+end
+
+function onDoubleClick(x, y)
+	window.sendToRoller();
 end
 </LUACode>
     <GroupIndex>0</GroupIndex>

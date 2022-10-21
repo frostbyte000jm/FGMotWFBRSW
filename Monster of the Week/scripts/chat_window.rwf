@@ -27,7 +27,7 @@ function onDrop(x, y, draginfo)
 	local sType = draginfo.getType();
 	if sType == "dice" then
 		local rDice = draginfo.getDieList();
-		--Debug.chat("nDice",nDice,"count:",#nDice);
+		--Debug.chat("rDice",rDice,"count:",#rDice);
 		
 		local rAddInfo = {
 			nDice = #rDice;
